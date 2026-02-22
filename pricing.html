@@ -29,6 +29,8 @@
             border: 2px solid #00C3AA; 
             background: rgba(0, 195, 170, 0.02);
         }
+
+        .hidden { display: none; }
     </style>
 </head>
 <body class="selection:bg-[#00C3AA]/30">
@@ -45,12 +47,25 @@
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
                 <a href="index.html" class="hover:text-white transition">หน้าหลัก</a>
                 <a href="portfolio.html" class="hover:text-white transition">ผลงาน</a>
-                <a href="pricing.html" class="text-white">แพ็กเกจราคา</a>
+                <a href="pricing.html" class="text-white border-b-2 border-[#00C3AA]">แพ็กเกจราคา</a>
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="auth/login.html" class="text-sm font-semibold hover:text-[#00C3AA] transition">เข้าสู่ระบบ</a>
-                <button class="bg-[#00C3AA] text-white px-6 py-2.5 rounded-full font-bold text-sm">เริ่มต้นใช้งาน</button>
+                <div id="auth-guest" class="flex items-center gap-4">
+                    <a href="auth/login.html" class="text-sm font-semibold hover:text-[#00C3AA] transition">เข้าสู่ระบบ</a>
+                    <a href="auth/register.html" class="bg-[#00C3AA] text-white px-6 py-2.5 rounded-full font-bold text-sm">เริ่มต้นใช้งาน</a>
+                </div>
+
+                <div id="auth-user" class="hidden flex items-center gap-4">
+                    <div class="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-full border border-white/10 shadow-lg">
+                        <div id="user-avatar" class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#00C3AA] to-blue-500 flex items-center justify-center text-[#0f172a] font-bold text-xs">
+                            </div>
+                        <span id="display-user-name" class="text-xs font-bold text-gray-200"></span>
+                    </div>
+                    <a id="dashboard-link" href="#" class="bg-white/5 hover:bg-[#00C3AA] hover:text-[#0f172a] text-[#00C3AA] border border-[#00C3AA]/30 px-5 py-2 rounded-xl font-bold text-xs transition-all">
+                        แดชบอร์ด <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -62,7 +77,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-            
             <div class="glass-card p-10 rounded-[2.5rem] flex flex-col">
                 <div class="w-14 h-14 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center text-xl mb-6">
                     <i class="fas fa-desktop"></i>
@@ -71,9 +85,9 @@
                 <p class="text-gray-400 text-sm mb-6">เหมาะสำหรับร้านที่ต้องการตรวจสอบเบื้องต้น</p>
                 <div class="mb-8">
                     <span class="text-5xl font-black text-white">฿9,900</span>
-                    <span class="text-gray-500 text-sm">/ ปี</span>
+                    <span class="text-gray-400 text-sm">/ ปี</span>
                 </div>
-                <ul class="space-y-4 mb-10 text-gray-300 text-sm flex-grow">
+                <ul class="space-y-4 mb-10 text-gray-300 text-sm flex-grow text-left">
                     <li><i class="fas fa-check text-[#00C3AA] mr-2"></i> ตรวจสอบออนไลน์ ภายใน 3 วัน</li>
                     <li><i class="fas fa-check text-[#00C3AA] mr-2"></i> คำแนะนำการปรับปรุงเบื้องต้น</li>
                     <li><i class="fas fa-check text-[#00C3AA] mr-2"></i> ได้ E-Certificate</li>
@@ -90,9 +104,9 @@
                 <p class="text-gray-400 text-sm mb-6">เหมาะสำหรับร้านที่ต้องการความละเอียดสูง</p>
                 <div class="mb-8">
                     <span class="text-5xl font-black text-[#00C3AA]">฿24,900</span>
-                    <span class="text-gray-500 text-sm">/ ปี</span>
+                    <span class="text-gray-400 text-sm">/ ปี</span>
                 </div>
-                <ul class="space-y-4 mb-10 text-gray-300 text-sm flex-grow">
+                <ul class="space-y-4 mb-10 text-gray-300 text-sm flex-grow text-left">
                     <li><i class="fas fa-check text-[#00C3AA] mr-2"></i> <strong>ลงพื้นที่โดยผู้เชี่ยวชาญ</strong></li>
                     <li><i class="fas fa-check text-[#00C3AA] mr-2"></i> คำแนะนำการปรับปรุงเชิงลึก</li>
                     <li><i class="fas fa-check text-[#00C3AA] mr-2"></i> ตรวจติดตามผล 1 ครั้ง</li>
@@ -109,16 +123,15 @@
                 <p class="text-gray-400 text-sm mb-6">เหมาะสำหรับร้านที่ต้องการความมั่นใจ 100%</p>
                 <div class="mb-8">
                     <span class="text-5xl font-black text-white">฿49,900</span>
-                    <span class="text-gray-500 text-sm">/ ปี</span>
+                    <span class="text-gray-400 text-sm">/ ปี</span>
                 </div>
-                <ul class="space-y-4 mb-10 text-gray-300 text-sm flex-grow">
+                <ul class="space-y-4 mb-10 text-gray-300 text-sm flex-grow text-left">
                     <li><i class="fas fa-check text-[#00C3AA] mr-2"></i> ตรวจสอบลงพื้นที่ Priority</li>
                     <li><i class="fas fa-check text-[#00C3AA] mr-2"></i> ติดตามจนกว่าจะผ่านเกณฑ์รัฐ</li>
                     <li><i class="fas fa-check text-[#00C3AA] mr-2"></i> ปรึกษาได้ตลอด 24 ชม.</li>
                 </ul>
                 <button onclick="goToPayment('Premium Guarantee', 49900)" class="w-full py-4 bg-white/5 text-white rounded-2xl font-bold hover:bg-white/10 transition border border-white/10">เลือกแพ็คเกจนี้</button>
             </div>
-
         </div>
     </section>
 
@@ -133,10 +146,35 @@
     </footer>
 
     <script>
+        // เช็ค Session เมื่อโหลดหน้า
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedUser = JSON.parse(localStorage.getItem('hygieUser'));
+            const role = localStorage.getItem('hygieRole');
+
+            const guestZone = document.getElementById('auth-guest');
+            const userZone = document.getElementById('auth-user');
+            const nameDisplay = document.getElementById('display-user-name');
+            const avatarDisplay = document.getElementById('user-avatar');
+            const dashboardLink = document.getElementById('dashboard-link');
+
+            if (savedUser) {
+                guestZone.classList.add('hidden');
+                userZone.classList.remove('hidden');
+                nameDisplay.innerText = savedUser.first_name;
+                avatarDisplay.innerText = savedUser.first_name.charAt(0).toUpperCase();
+
+                // ตั้งลิงก์แดชบอร์ดตามสิทธิ์
+                if (role === 'admin') {
+                    dashboardLink.href = 'admin/admin-dashboard.html';
+                } else {
+                    dashboardLink.href = 'customer/customer-dashboard.html';
+                }
+            }
+        });
+
         function goToPayment(plan, price) {
             window.location.href = `payment.html?plan=${encodeURIComponent(plan)}&price=${price}`;
         }
     </script>
 </body>
-
 </html>
