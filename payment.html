@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ชำระเงิน - HygieGo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap');
+        body { font-family: 'Prompt', sans-serif; background-color: #0f172a; color: white; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="selection:bg-[#00C3AA]/30">
+
+    <nav class="fixed w-full z-50 bg-[#0f172a]/80 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-shield-alt text-[#00C3AA] text-2xl"></i>
+                <span class="text-2xl font-bold bg-gradient-to-r from-[#00C3AA] to-blue-500 bg-clip-text text-transparent">
+                    HygieGo
+                </span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+                <a href="indexnew.html" class="hover:text-white transition">หน้าหลัก</a>
+                <a href="portfolio.html" class="hover:text-white transition">ผลงาน</a>
+                <a href="pricing.html" class="hover:text-white transition text-[#00C3AA]">แพ็กเกจราคา</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="auth/login.html" class="text-sm font-semibold hover:text-[#00C3AA] transition">เข้าสู่ระบบ</a>
+                <button class="bg-[#00C3AA] text-white px-6 py-2.5 rounded-full font-bold text-sm">สมัครใช้งาน</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto pt-32 pb-20 px-6">
+        <header class="flex justify-between items-center mb-10">
+            <div class="text-left">
+                <h1 class="text-4xl font-black text-white mb-2">ยืนยันการชำระเงิน</h1>
+                <p class="text-gray-400 text-sm">ระบบจำลองการชำระเงิน มาตรฐานความปลอดภัยสูง</p>
+            </div>
+            <span class="bg-[#00C3AA]/10 text-[#00C3AA] px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-[#00C3AA]/20">Checkout</span>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="glass-card p-10 rounded-[2.5rem]">
+                    <h3 class="font-bold text-white mb-8 flex items-center gap-2">
+                        <i class="fas fa-credit-card text-[#00C3AA]"></i> ข้อมูลบัตรเครดิต/เดบิต
+                    </h3>
+                    
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <div class="col-span-2 md:col-span-1">
+                            <label class="text-[10px] text-gray-500 font-bold uppercase mb-2 block">ชื่อเจ้าของบัตร</label>
+                            <input id="pName" type="text" readonly class="w-full p-4 bg-white/5 border border-white/5 rounded-2xl text-sm outline-none text-gray-300">
+                        </div>
+                        <div class="col-span-2 md:col-span-1">
+                            <label class="text-[10px] text-gray-500 font-bold uppercase mb-2 block">อีเมลติดต่อ</label>
+                            <input id="pEmail" type="text" readonly class="w-full p-4 bg-white/5 border border-white/5 rounded-2xl text-sm outline-none text-gray-300">
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label class="text-[10px] text-gray-500 font-bold uppercase mb-2 block tracking-widest">หมายเลขบัตร (จำลอง)</label>
+                            <div class="relative">
+                                <input type="text" value="4242 4242 4242 4242" class="w-full p-4 bg-white/5 border border-white/5 rounded-2xl text-sm tracking-[0.3em] font-mono text-[#00C3AA]">
+                                <i class="fab fa-cc-visa absolute right-4 top-1/2 -translate-y-1/2 text-2xl opacity-20"></i>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase mb-2 block">วันหมดอายุ</label>
+                                <input type="text" value="12/28" class="w-full p-4 bg-white/5 border border-white/5 rounded-2xl text-sm text-center">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase mb-2 block">CVV</label>
+                                <input type="text" value="***" class="w-full p-4 bg-white/5 border border-white/5 rounded-2xl text-sm text-center">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="btnPayNow" class="w-full py-5 bg-[#00C3AA] text-[#0f172a] rounded-2xl font-black text-lg shadow-lg shadow-[#00C3AA]/20 hover:scale-[1.02] transition-all mt-10">
+                        ชำระเงิน ฿<span id="btnPrice">0</span>
+                    </button>
+                    <p class="text-center text-[10px] text-gray-500 mt-6 uppercase tracking-widest">Secure Payment Powered by HygieGo Gateway</p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="glass-card p-8 rounded-[2rem] sticky top-28">
+                    <h3 class="font-bold text-white mb-6 uppercase text-sm tracking-widest border-b border-white/5 pb-4">สรุปรายการสั่งซื้อ</h3>
+                    <div class="space-y-5 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">แพ็คเกจ</span>
+                            <b id="displayPlan" class="text-[#00C3AA]">-</b>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">ระยะเวลา</span>
+                            <span class="text-white">12 เดือน (ต่อปี)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">ภาษีมูลค่าเพิ่ม</span>
+                            <span class="text-white italic">Included</span>
+                        </div>
+                        <hr class="border-white/5 my-2">
+                        <div class="flex justify-between items-center pt-2">
+                            <span class="font-bold text-white">ยอดรวมทั้งสิ้น</span>
+                            <span id="displayPrice" class="text-3xl font-black text-[#00C3AA]">฿0</span>
+                        </div>
+                    </div>
+                    <div class="mt-8 p-5 bg-[#00C3AA]/5 rounded-2xl border border-[#00C3AA]/10">
+                        <p class="text-[11px] text-[#00C3AA] leading-relaxed italic">
+                            <i class="fas fa-shield-check mr-1"></i> หลังชำระเงินสำเร็จ ระบบจะปลดล็อกหน้า Customer Dashboard ให้ท่านทันที
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // อัปเดตข้อมูลเชื่อมต่อล่าสุด (ชุด yqlbdwf...)
+        const SUPABASE_URL = 'https://yqlbdwfcnffjuzjznrbi.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_JFvzaU8LuSa8KzL7o7Fmaw_J4oergY7';
+        const _client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const params = new URLSearchParams(window.location.search);
+        const plan = params.get('plan');
+        const price = params.get('price');
+
+        const savedUser = JSON.parse(localStorage.getItem('hygieUser'));
+
+        function init() {
+            if (!savedUser) {
+                window.location.href = 'auth/login.html';
+                return;
+            }
+            document.getElementById('pName').value = savedUser.first_name + ' ' + (savedUser.last_name || '');
+            document.getElementById('pEmail').value = savedUser.email;
+            document.getElementById('displayPlan').innerText = plan || 'N/A';
+            document.getElementById('displayPrice').innerText = '฿' + Number(price).toLocaleString();
+            document.getElementById('btnPrice').innerText = Number(price).toLocaleString();
+        }
+
+        document.getElementById('btnPayNow').addEventListener('click', async () => {
+            Swal.fire({ 
+                title: 'กำลังตรวจสอบยอดเงิน...', 
+                background: '#1e293b',
+                color: '#fff',
+                allowOutsideClick: false, 
+                didOpen: () => Swal.showLoading() 
+            });
+
+            try {
+                // 1. บันทึกลงตาราง packagetransaction (ตัวพิมพ์เล็กตาม SQL)
+                const { error: tErr } = await _client.from('packagetransaction').insert([{
+                    user_id: savedUser.user_id,
+                    package_name: plan,
+                    status: 'active'
+                }]);
+
+                if (tErr) throw tErr;
+
+                // 2. อัปเดตตาราง users (ตัวพิมพ์เล็กตาม SQL)
+                const { error: uErr } = await _client.from('users')
+                    .update({ payment_status: 'paid' })
+                    .eq('user_id', savedUser.user_id);
+
+                if (uErr) throw uErr;
+
+                // 3. อัปเดต LocalStorage เพื่อให้ Dashboard รับค่าใหม่ทันที
+                savedUser.payment_status = 'paid';
+                localStorage.setItem('hygieUser', JSON.stringify(savedUser));
+
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'ชำระเงินสำเร็จ!',
+                    text: 'ระบบได้เปิดใช้งานแพ็กเกจของคุณแล้ว',
+                    background: '#1e293b',
+                    color: '#fff',
+                    confirmButtonColor: '#00C3AA'
+                });
+                
+                window.location.href = 'customer/customer-dashboard.html';
+
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: err.message,
+                    background: '#1e293b',
+                    color: '#fff'
+                });
+            }
+        });
+
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ - HygieGo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap');
+        body { font-family: 'Kanit', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#0b1120] flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-[#1e293b] p-8 md:p-10 rounded-3xl w-full max-w-md shadow-2xl border border-gray-800 transition-all">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-white mb-2">HygieGo</h1>
+            <p class="text-gray-400 text-sm">กรุณาลงชื่อเข้าใช้งานเพื่อจัดการระบบของคุณ</p>
+        </div>
+        
+        <form id="loginForm" class="space-y-6 text-left">
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">อีเมลผู้ใช้งาน</label>
+                <div class="relative">
+                    <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                    <input type="email" id="email" required placeholder="example@mail.com" 
+                        class="w-full pl-12 pr-4 py-3 rounded-xl bg-[#0f172a] border border-gray-700 text-white focus:border-[#00C3AA] focus:ring-1 focus:ring-[#00C3AA] outline-none transition-all">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">รหัสผ่าน</label>
+                <div class="relative">
+                    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                    <input type="password" id="password" required placeholder="••••••••" 
+                        class="w-full pl-12 pr-4 py-3 rounded-xl bg-[#0f172a] border border-gray-700 text-white focus:border-[#00C3AA] focus:ring-1 focus:ring-[#00C3AA] outline-none transition-all">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-gray-400">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" class="accent-[#00C3AA]"> จดจำฉันไว้
+                </label>
+                <a href="#" class="hover:text-[#00C3AA] transition">ลืมรหัสผ่าน?</a>
+            </div>
+
+            <button type="submit" class="w-full bg-[#00C3AA] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#00a892] hover:shadow-[0_0_20px_rgba(0,195,170,0.3)] transition-all active:scale-[0.98]">
+                เข้าสู่ระบบ
+            </button>
+        </form>
+
+        <div class="mt-8 text-center text-sm text-gray-500">
+            ยังไม่มีบัญชี? <a href="register.html" class="text-[#00C3AA] font-bold hover:underline">ลงทะเบียนฟรี</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import db from '../js/DB.js';
+
+        // เรียกใช้งาน init เพื่อตั้งค่า client
+        db.init();
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            Swal.fire({ 
+                title: 'กำลังตรวจสอบข้อมูล...', 
+                allowOutsideClick: false, 
+                didOpen: () => Swal.showLoading() 
+            });
+
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+
+            // เรียกใช้ฟังก์ชัน login จาก DB.js (ที่แก้เป็น .from('users') แล้ว)
+            const res = await db.login(email, pass);
+
+            if (res.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'สำเร็จ!',
+                    text: 'ยินดีต้อนรับกลับเข้าสู่ระบบ',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    // ใช้ข้อมูลจาก res.user ที่ดึงมาจากตาราง users (ตัวเล็ก)
+                    const user = res.user;
+                    const role = res.role; // รับค่า role ที่ DB.js return ออกมา
+
+                    if (role === 'admin') {
+                        window.location.href = '../admin/admin-dashboard.html';
+                    } else {
+                        // ตรวจสอบ payment_status (ต้องตรงกับชื่อคอลัมน์ใน DB)
+                        if (user.payment_status !== 'paid') {
+                            window.location.href = '../pricing.html';
+                        } else {
+                            window.location.href = '../customer/customer-dashboard.html';
+                        }
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เข้าสู่ระบบไม่สำเร็จ',
+                    text: res.msg,
+                    confirmButtonColor: '#00C3AA'
+                });
+            }
+        });
+    </script>
+</body>
+</html>

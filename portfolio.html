@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ผลงานของเรา - HygieGo Hall of Fame</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Prompt', sans-serif; background-color: #0f172a; color: white; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: #00C3AA;
+            transform: translateY(-5px);
+        }
+        .filter-btn.active {
+            background-color: #00C3AA;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(0, 195, 170, 0.4);
+        }
+    </style>
+</head>
+<body class="selection:bg-[#00C3AA]/30">
+
+    <nav class="fixed w-full z-50 bg-[#0f172a]/80 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-shield-alt text-[#00C3AA] text-2xl"></i>
+                <span class="text-2xl font-bold bg-gradient-to-r from-[#00C3AA] to-blue-500 bg-clip-text text-transparent">
+                    HygieGo
+                </span>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+                <a href="indexnew.html" class="hover:text-white transition">หน้าหลัก</a>
+                <a href="portfolio.html" class="hover:text-white transition">ผลงาน</a>
+                <a href="pricing.html" class="hover:text-white transition">แพ็กเกจราคา</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="auth/login.html" class="text-sm font-semibold hover:text-[#00C3AA] transition">เข้าสู่ระบบ</a>
+                <a href="auth/register.html" class="bg-[#00C3AA] text-white px-6 py-2.5 rounded-full font-bold text-sm">เริ่มต้นใช้งาน</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-40 pb-16 px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00C3AA]/10 border border-[#00C3AA]/20 text-[#00C3AA] text-xs font-bold mb-6">
+                <i class="fas fa-check-circle"></i> ตรวจสอบแล้วผ่านเกณฑ์จริง 100%
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
+                ทำเนียบร้านค้า <span class="text-[#00C3AA]">"ป้ายทอง"</span>
+            </h1>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                รวมความสำเร็จของร้าน Street Food ที่เราได้เข้าไปดูแล ตั้งแต่การปรับปรุงความสะอาดไปจนถึงการได้รับใบรับรองมาตรฐาน
+            </p>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-6 mb-16">
+        <div class="flex flex-wrap justify-center gap-4">
+            <button class="filter-btn active px-8 py-2.5 rounded-full glass-card text-sm font-bold transition-all" onclick="filterSelection('all')">ทั้งหมด</button>
+            <button class="filter-btn px-8 py-2.5 rounded-full glass-card text-sm font-bold transition-all" onclick="filterSelection('certified')">ผ่านการรับรอง</button>
+            <button class="filter-btn px-8 py-2.5 rounded-full glass-card text-sm font-bold transition-all" onclick="filterSelection('cleaning')">Big Cleaning</button>
+            <button class="filter-btn px-8 py-2.5 rounded-full glass-card text-sm font-bold transition-all" onclick="filterSelection('inspection')">ตรวจประเมิน</button>
+        </div>
+    </div>
+
+    <section class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-32">
+        
+        <div class="filter-item certified glass-card rounded-[2.5rem] overflow-hidden group">
+            <div class="relative h-64">
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute top-6 right-6 bg-yellow-500 text-[#0f172a] px-4 py-1.5 rounded-full text-[10px] font-black uppercase shadow-lg">
+                    <i class="fas fa-award mr-1"></i> Certified
+                </div>
+            </div>
+            <div class="p-8">
+                <div class="flex gap-2 mb-4">
+                    <span class="text-[10px] bg-[#00C3AA]/10 text-[#00C3AA] px-3 py-1 rounded-full font-bold uppercase">Street Food</span>
+                </div>
+                <h3 class="text-xl font-bold mb-3">ร้าน Pizza เตาถ่าน ลุงจอน</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-6">ยกระดับจากร้านรถเข็นธรรมดา สู่มาตรฐานสุขาภิบาลระดับเขต พร้อมป้ายรับรอง Clean Food Good Taste</p>
+                <div class="pt-6 border-t border-white/5 flex justify-between items-center">
+                    <span class="text-xs text-gray-500"><i class="fas fa-map-marker-alt text-[#00C3AA] mr-1"></i> ตลาดจตุจักร</span>
+                    <span class="text-[#00C3AA] text-xs font-bold italic">Score: 98/100</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-item cleaning glass-card rounded-[2.5rem] overflow-hidden group">
+            <div class="relative h-64">
+                <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute bottom-6 left-6 bg-blue-500/90 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase">
+                    After Big Cleaning
+                </div>
+            </div>
+            <div class="p-8">
+                <div class="flex gap-2 mb-4">
+                    <span class="text-[10px] bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full font-bold uppercase">Cleaning</span>
+                </div>
+                <h3 class="text-xl font-bold mb-3">ข้าวมันไก่เจ๊หงส์</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-6">จัดการคราบน้ำมันและระบบดักไขมันใหม่ทั้งหมด เพื่อเตรียมพร้อมรับการตรวจจากเจ้าหน้าที่</p>
+                <div class="pt-6 border-t border-white/5 flex justify-between items-center">
+                    <span class="text-xs text-gray-500"><i class="fas fa-calendar-alt text-[#00C3AA] mr-1"></i> 14 ม.ค. 2026</span>
+                    <span class="text-blue-400 text-xs font-bold uppercase tracking-widest">Completed</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-item inspection glass-card rounded-[2.5rem] overflow-hidden group">
+            <div class="relative h-64">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+            </div>
+            <div class="p-8">
+                <div class="flex gap-2 mb-4">
+                    <span class="text-[10px] bg-purple-500/10 text-purple-400 px-3 py-1 rounded-full font-bold uppercase">Inspection</span>
+                </div>
+                <h3 class="text-xl font-bold mb-3">ก๋วยเตี๋ยวเรือโกฮับ</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-6">ใช้ระบบ HygieGo ในการบันทึกผลการตรวจและติดตามการแก้ไขจุดบกพร่องแบบ Real-time</p>
+                <div class="pt-6 border-t border-white/5 flex justify-between items-center">
+                    <span class="text-xs text-gray-500"><i class="fas fa-store text-[#00C3AA] mr-1"></i> สาขา รังสิต</span>
+                    <span class="text-purple-400 text-xs font-bold uppercase tracking-widest">In Progress</span>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer class="bg-[#020617] border-t border-white/5 py-20 px-6 text-center">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <i class="fas fa-shield-alt text-[#00C3AA] text-3xl"></i>
+                <span class="text-3xl font-bold text-white">HygieGo System</span>
+            </div>
+            <p class="text-gray-500 max-w-xl mx-auto mb-10 text-sm">
+                เราช่วยเปลี่ยนร้านอาหารธรรมดาให้กลายเป็นร้านค้ามาตรฐานความปลอดภัยระดับรัฐ
+            </p>
+            <div class="text-gray-600 text-[10px] uppercase tracking-widest">
+                &copy; 2026 HygieGo System. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function filterSelection(category) {
+            const elements = document.getElementsByClassName("filter-item");
+            const btns = document.getElementsByClassName("filter-btn");
+
+            // Update active button
+            for (let btn of btns) {
+                btn.classList.remove("active");
+                if (
+                    (category === 'all' && btn.innerText === 'ทั้งหมด') ||
+                    (btn.innerText.toLowerCase().includes(category))
+                ) {
+                    btn.classList.add("active");
+                }
+            }
+
+            // Filter items with fade animation
+            for (let el of elements) {
+                el.style.opacity = "0";
+                setTimeout(() => {
+                    if (category === "all" || el.classList.contains(category)) {
+                        el.style.display = "block";
+                        setTimeout(() => el.style.opacity = "1", 50);
+                    } else {
+                        el.style.display = "none";
+                    }
+                }, 200);
+            }
+        }
+    </script>
+
+</body>
+</html>
