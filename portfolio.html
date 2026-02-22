@@ -27,6 +27,7 @@
             color: #0f172a;
             box-shadow: 0 0 15px rgba(0, 195, 170, 0.4);
         }
+        .hidden { display: none; }
     </style>
 </head>
 <body class="selection:bg-[#00C3AA]/30">
@@ -42,13 +43,26 @@
             
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
                 <a href="index.html" class="hover:text-white transition">หน้าหลัก</a>
-                <a href="portfolio.html" class="hover:text-white transition">ผลงาน</a>
+                <a href="portfolio.html" class="text-white border-b-2 border-[#00C3AA]">ผลงาน</a>
                 <a href="pricing.html" class="hover:text-white transition">แพ็กเกจราคา</a>
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="auth/login.html" class="text-sm font-semibold hover:text-[#00C3AA] transition">เข้าสู่ระบบ</a>
-                <a href="auth/register.html" class="bg-[#00C3AA] text-white px-6 py-2.5 rounded-full font-bold text-sm">เริ่มต้นใช้งาน</a>
+                <div id="auth-guest" class="flex items-center gap-4">
+                    <a href="auth/login.html" class="text-sm font-semibold hover:text-[#00C3AA] transition">เข้าสู่ระบบ</a>
+                    <a href="auth/register.html" class="bg-[#00C3AA] text-white px-6 py-2.5 rounded-full font-bold text-sm">เริ่มต้นใช้งาน</a>
+                </div>
+
+                <div id="auth-user" class="hidden flex items-center gap-4">
+                    <div class="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-full border border-white/10 shadow-lg">
+                        <div id="user-avatar" class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#00C3AA] to-blue-500 flex items-center justify-center text-[#0f172a] font-bold text-xs">
+                        </div>
+                        <span id="display-user-name" class="text-xs font-bold text-gray-200"></span>
+                    </div>
+                    <a id="dashboard-link" href="#" class="bg-white/5 hover:bg-[#00C3AA] hover:text-[#0f172a] text-[#00C3AA] border border-[#00C3AA]/30 px-5 py-2 rounded-xl font-bold text-xs transition-all">
+                        ไปที่แดชบอร์ด <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -77,7 +91,6 @@
     </div>
 
     <section class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-32">
-        
         <div class="filter-item certified glass-card rounded-[2.5rem] overflow-hidden group">
             <div class="relative h-64">
                 <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
@@ -97,7 +110,6 @@
                 </div>
             </div>
         </div>
-
         <div class="filter-item cleaning glass-card rounded-[2.5rem] overflow-hidden group">
             <div class="relative h-64">
                 <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
@@ -117,7 +129,6 @@
                 </div>
             </div>
         </div>
-
         <div class="filter-item inspection glass-card rounded-[2.5rem] overflow-hidden group">
             <div class="relative h-64">
                 <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
@@ -134,7 +145,6 @@
                 </div>
             </div>
         </div>
-
     </section>
 
     <footer class="bg-[#020617] border-t border-white/5 py-20 px-6 text-center">
@@ -153,22 +163,43 @@
     </footer>
 
     <script>
+        // Session Check Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedUser = JSON.parse(localStorage.getItem('hygieUser'));
+            const role = localStorage.getItem('hygieRole');
+
+            const guestZone = document.getElementById('auth-guest');
+            const userZone = document.getElementById('auth-user');
+            const nameDisplay = document.getElementById('display-user-name');
+            const avatarDisplay = document.getElementById('user-avatar');
+            const dashboardLink = document.getElementById('dashboard-link');
+
+            if (savedUser) {
+                guestZone.classList.add('hidden');
+                userZone.classList.remove('hidden');
+                nameDisplay.innerText = savedUser.first_name;
+                avatarDisplay.innerText = savedUser.first_name.charAt(0).toUpperCase();
+
+                if (role === 'admin') {
+                    dashboardLink.href = 'admin/admin-dashboard.html';
+                } else {
+                    dashboardLink.href = 'customer/customer-dashboard.html';
+                }
+            }
+        });
+
+        // Filter Function
         function filterSelection(category) {
             const elements = document.getElementsByClassName("filter-item");
             const btns = document.getElementsByClassName("filter-btn");
 
-            // Update active button
             for (let btn of btns) {
                 btn.classList.remove("active");
-                if (
-                    (category === 'all' && btn.innerText === 'ทั้งหมด') ||
-                    (btn.innerText.toLowerCase().includes(category))
-                ) {
+                if ((category === 'all' && btn.innerText === 'ทั้งหมด') || (btn.innerText.toLowerCase().includes(category))) {
                     btn.classList.add("active");
                 }
             }
 
-            // Filter items with fade animation
             for (let el of elements) {
                 el.style.opacity = "0";
                 setTimeout(() => {
@@ -182,7 +213,5 @@
             }
         }
     </script>
-
 </body>
-
 </html>
